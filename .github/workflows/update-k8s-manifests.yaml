@@ -1,0 +1,34 @@
+name: Update K8s Manifests
+on:
+  workflow_call:
+    inputs:
+      service:
+        required: true
+        type: string
+      image-tag:
+        required: true
+        type: string
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: boriszugic/voting-app-k8s-manifests
+          path: manifests
+          token: ${{ secrets.MANIFESTS_REPO_TOKEN }}
+
+      - name: Update image
+        run: |
+          cd manifests/${{ inputs.service }}
+          yq -i ".spec.template.spec.containers[0].image = \"${{ vars.ACR }}/${{ inputs.service }}:${{ inputs.image-tag }}\"" deployment.yaml
+
+      - name: Commit and push
+        run: |
+          cd manifests/${{ inputs.service }}
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add deployment.yaml
+          git commit -m "Update image for ${{ inputs.service }} to ${{ inputs.image-tag }}"
+          git push
