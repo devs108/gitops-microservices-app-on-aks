@@ -17,7 +17,7 @@ jobs:
         with:
           repository: boriszugic/voting-app-k8s-manifests
           path: manifests
-          token: ${{ secrets.MANIFESTS_REPO_TOKEN }}
+          token: ${{ secrets.MANIFESTS_REPO_PAT }}
 
       - name: Update image
         run: |
