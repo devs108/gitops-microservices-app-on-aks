@@ -22,7 +22,7 @@ jobs:
       - name: Update image
         run: |
           cd manifests/${{ inputs.service }}
-          yq -i ".spec.template.spec.containers[0].image = \"${{ vars.ACR }}/${{ inputs.service }}:${{ inputs.image-tag }}\"" deployment.yaml
+          yq -i ".spec.template.spec.containers[0].image = \"${{ secrets.REGISTRY }}/${{ inputs.service }}:${{ inputs.image-tag }}\"" deployment.yaml
 
       - name: Commit and push
         run: |
