@@ -15,7 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          token: ${{ secrets.MANIFESTS_REPO_PAT }}
           repository: boriszugic/voting-app-k8s-manifests
           path: manifests
 
