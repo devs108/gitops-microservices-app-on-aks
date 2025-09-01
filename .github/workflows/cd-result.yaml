@@ -28,3 +28,9 @@ jobs:
           tags: |
             ${{ secrets.REGISTRY }}/result:${{ github.sha }}
             ${{ secrets.REGISTRY }}/result:latest
+  update-manifests:
+    needs: build-and-push
+    uses: ./.github/workflows/update-k8s-manifests.yaml
+    with:
+      service: result
+      image-tag: ${{ github.sha }}
