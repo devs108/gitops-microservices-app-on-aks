@@ -1,0 +1,30 @@
+name: CD - Vote Service
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'vote/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to ACR
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ secrets.REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build & push container
+        uses: docker/build-push-action@v5
+        with:
+          context: vote
+          push: true
+          tags: |
+            ${{ secrets.REGISTRY }}/vote:${{ github.sha }}
+            ${{ secrets.REGISTRY }}/vote:latest
