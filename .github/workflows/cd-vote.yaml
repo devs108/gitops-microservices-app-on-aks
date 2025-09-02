@@ -33,7 +33,6 @@ jobs:
     needs: build-and-push
     uses: ./.github/workflows/update-k8s-manifests.yaml
     with:
-      service: vote
-      image-tag: ${{ github.sha }}
+      image: ${{ secrets.REGISTRY }}/vote:${{ github.sha }}
     secrets:
       MANIFESTS_REPO_PAT: ${{ secrets.MANIFESTS_REPO_PAT }}
