@@ -35,3 +35,5 @@ jobs:
     with:
       service: vote
       image-tag: ${{ github.sha }}
+    secrets:
+      MANIFESTS_REPO_PAT: ${{ secrets.MANIFESTS_REPO_PAT }}
