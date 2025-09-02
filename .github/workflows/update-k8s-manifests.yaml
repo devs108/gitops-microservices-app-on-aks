@@ -5,7 +5,7 @@ on:
       service:
         required: true
         type: string
-      image-tag:
+      image:
         required: true
         type: string
     secrets:
@@ -25,7 +25,7 @@ jobs:
       - name: Update image
         run: |
           cd manifests/${{ inputs.service }}
-          yq -i ".spec.template.spec.containers[0].image = \"${{ secrets.REGISTRY }}/${{ inputs.service }}:${{ inputs.image-tag }}\"" deployment.yaml
+          yq -i ".spec.template.spec.containers[0].image = \"${{ inputs.image }}\"" deployment.yaml
 
       - name: Commit and push
         run: |
@@ -33,5 +33,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add deployment.yaml
-          git commit -m "Update image for ${{ inputs.service }} to ${{ inputs.image-tag }}"
+          git commit -m "Update image for ${{ inputs.service }}"
           git push
