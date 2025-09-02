@@ -34,6 +34,7 @@ jobs:
     uses: ./.github/workflows/update-k8s-manifests.yaml
     with:
       service: vote
-      image: ${{ secrets.REGISTRY }}/vote:${{ github.sha }}
+      image-tag: ${{ github.sha }}
     secrets:
       MANIFESTS_REPO_PAT: ${{ secrets.MANIFESTS_REPO_PAT }}
+      REGISTRY: ${{ secrets.REGISTRY }}
